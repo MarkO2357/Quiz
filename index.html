@@ -163,10 +163,10 @@
                 clearTime[1 + quizes.length] += finished - started;
                 timeGaugeView.innerHTML = "";
                 if (this.value == quizes[quiznum[right + wrong]][4]) {
-                    scoreView.textContent = "正解 " + clearTime[right + wrong] + "秒";
+                    scoreView.textContent = "正解 " + (clearTime[right + wrong]/1000).toFixed(3) + "秒";
                     right++;
                 } else {
-                    scoreView.textContent = "不正解 " + clearTime[right + wrong] + "秒";
+                    scoreView.textContent = "不正解 " + (clearTime[right + wrong]/1000).toFixed(3) + "秒";
                     wrong++;
                 }
                 if (right + wrong == quizes.length) {
@@ -229,7 +229,7 @@
                 qc4.style.visibility = "hidden";
                 gamestart.style.visibility = "visible";
                 scoreView.textContent = "終了";
-                time = Math.floor((clearTime[1 + quizes.length] - clearTime[1 + quizes.length]%1000)/1000);
+                time = (clearTime[right + wrong]/1000).toFixed(3);
                 const resultContens =
                 `<tr>
                     <th>正　解：</th><td>${right}回</td>
@@ -238,7 +238,7 @@
                     <th>不正解：</th><td>${wrong}回</td>
                 </tr>
                 <tr>
-                    <th>時　間：</th><td>${time}.${clearTime[1 + quizes.length]%1000}秒</td>
+                    <th>時　間：</th><td>${time}秒</td>
                 </tr>`;
                 resultTable.innerHTML = resultContens;
                 clearTime[1 + quizes.length] = 0;
