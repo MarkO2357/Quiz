@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Test</title>
+        <title>Quiz</title>
         <style>
             body {
                 background-color: #222;
@@ -102,10 +102,10 @@
             const resultView = document.getElementById("resultView");
             const gamestart = document.getElementById("startbutton");
             const scoreView = document.getElementById("scoreView");
-            const qc1 = document.getElementById("quizchoice1");
-            const qc2 = document.getElementById("quizchoice2");
-            const qc3 = document.getElementById("quizchoice3");
-            const qc4 = document.getElementById("quizchoice4");
+            const quizchoice1 = document.getElementById("quizchoice1");
+            const quizchoice2 = document.getElementById("quizchoice2");
+            const quizchoice3 = document.getElementById("quizchoice3");
+            const quizchoice4 = document.getElementById("quizchoice4");
 
             //初期設定
             gamestart.style.visibility = "hidden";
@@ -148,10 +148,10 @@
                 x = getRandomInt(4);
                 y = (getRandomInt(2) * 2) + 1;
                 z = getRandomInt(2);
-                qc1.value = quizes[quiznum[right + wrong]][(((1 + x) + z) * y) % 4];
-                qc2.value = quizes[quiznum[right + wrong]][(((2 + x) + (z * 3)) * y) % 4];
-                qc3.value = quizes[quiznum[right + wrong]][((3 + x) * y) % 4];
-                qc4.value = quizes[quiznum[right + wrong]][((x) * y) % 4];
+                quizchoice1.value = quizes[quiznum[right + wrong]][(((1 + x) + z) * y) % 4];
+                quizchoice2.value = quizes[quiznum[right + wrong]][(((2 + x) + (z * 3)) * y) % 4];
+                quizchoice3.value = quizes[quiznum[right + wrong]][((3 + x) * y) % 4];
+                quizchoice4.value = quizes[quiznum[right + wrong]][((x) * y) % 4];
                 started = new Date();
                 timeGaugeView.innerHTML = timeGauge;
             };
@@ -203,19 +203,19 @@
                 choosequestion();
                 choosechoices();
                 quizquestion.style.visibility = "visible";
-                qc1.style.visibility = "visible";
-                qc2.style.visibility = "visible";
-                qc3.style.visibility = "visible";
-                qc4.style.visibility = "visible";
+                quizchoice1.style.visibility = "visible";
+                quizchoice2.style.visibility = "visible";
+                quizchoice3.style.visibility = "visible";
+                quizchoice4.style.visibility = "visible";
                 gamestart.style.visibility = "hidden";
                 scoreView.textContent = "";
             };
 
             //選択肢を選んだ際の処理
-            qc1.onclick = check;
-            qc2.onclick = check;
-            qc3.onclick = check;
-            qc4.onclick = check;
+            quizchoice1.onclick = check;
+            quizchoice2.onclick = check;
+            quizchoice3.onclick = check;
+            quizchoice4.onclick = check;
             
             //スタートを押した際の処理
             gamestart.onclick = start;
@@ -223,10 +223,10 @@
             //結果表示
             const result = function() {
                 quizquestion.style.visibility = "hidden";
-                qc1.style.visibility = "hidden";
-                qc2.style.visibility = "hidden";
-                qc3.style.visibility = "hidden";
-                qc4.style.visibility = "hidden";
+                quizchoice1.style.visibility = "hidden";
+                quizchoice2.style.visibility = "hidden";
+                quizchoice3.style.visibility = "hidden";
+                quizchoice4.style.visibility = "hidden";
                 gamestart.style.visibility = "visible";
                 scoreView.textContent = "終了";
                 time = (clearTime[1 + quizes.length]/1000).toFixed(3);
