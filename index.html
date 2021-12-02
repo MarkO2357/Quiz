@@ -8,32 +8,30 @@
         <style>
             body {
                 background-color: #222;
-                font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+                font-family     : "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+                text-align      : center;
             }
             .button {
                 display         : inline;
-                border-radius   : 2%;                   /* 角丸       */
-                font-size       : 1rem;                 /* 文字サイズ */
-                text-align      : center;               /* 文字位置   */
-                cursor          : pointer;              /* カーソル   */
-                padding         : 15px;                 /* 余白       */
-                background      : #fff;            /* 背景色     */
-                color           : #00007f;            /* 文字色     */
-                line-height     : 1em;                  /* 1行の高さ  */
-                transition      : .3s;                  /* なめらか変化 */
-                border          : 2px solid #00007f;  /* 枠の指定   */
+                border-radius   : 2%;
+                font-size       : 1rem;
+                text-align      : center;
+                cursor          : pointer;
+                padding         : 15px;
+                background      : #fff;
+                color           : #00007f;
+                line-height     : 1em;
+                transition      : .3s;
+                border          : 2px solid #00007f;
                 font-weight     : bold;
                 margin          : 20 auto;
             }
             .button:hover {
-                color           : #fff;             /* 背景色     */
-                background      : #00007f;             /* 文字色     */
+                color           : #fff;
+                background      : #00007f;
             }
-            .question {
-                color           : #fff;             /* 文字色     */
-            }
-            .show-result {
-                color           : #fff;             /* 文字色     */
+            .question,.show-result {
+                color           : #fff;
             }
             .time-gauge {
                 animation       : progress 10000ms linear 1;
@@ -71,11 +69,11 @@
                 <input type = "button" id = "quizchoice3" value = "選択肢" class = "button" accesskey = "3">
                 <input type = "button" id = "quizchoice4" value = "選択肢" class = "button" accesskey = "4">
             </div>
-            <input type = "button" id = "startbutton" value = "スタート" class = "button" hidden = "hidden">
+            <input type = "button" id = "startbutton" value = "スタート" class = "button">
             <div id = "scoreView" class="question"></div>
         </section>
 
-        <section id="resultView">
+        <section id="resultView" class = "show-result">
             <table id="resultTable"></table>
         </section>
 
@@ -124,21 +122,12 @@
             let quiznum = [...Array(quizes.length)].map((_, i) => i);
 
             //クリアタイム格納
-            let cleartime = [...Array(1 + quizes.length)];
-            cleartime[1 + quizes.length] = 0;
-
-            //時間計測
-            const clearTime = function() {
-                cleartime[right + wrong] = finished - started;
-                cleartime[1 + quizes.length] += finished - started;
-            };
+            let clearTime = [...Array(1 + quizes.length)];
+            clearTime[1 + quizes.length] = 0;
 
             //ランダムな問題の表示
             const choosequestion = function() {
-                if(resultView.classList.contains("show-result") == true){
-                resultView.classList.remove("show-result");
                 resultTable.innerHTML = "";
-                }
                 qnum = quizes.length;
                 while (qnum) {
                     s = Math.floor( Math.random() * qnum);
@@ -170,13 +159,14 @@
             //選択肢の正否判定
             const check = function() {
                 finished = new Date();
-                clearTime();
+                clearTime[right + wrong] = finished - started;
+                clearTime[1 + quizes.length] += finished - started;
                 timeGaugeView.innerHTML = "";
                 if (this.value == quizes[quiznum[right + wrong]][4]) {
-                    scoreView.textContent = "正解 " + cleartime[right + wrong] + "秒";
+                    scoreView.textContent = "正解 " + clearTime[right + wrong] + "秒";
                     right++;
                 } else {
-                    scoreView.textContent = "不正解 " + cleartime[right + wrong] + "秒";
+                    scoreView.textContent = "不正解 " + clearTime[right + wrong] + "秒";
                     wrong++;
                 }
                 if (right + wrong == quizes.length) {
@@ -186,11 +176,12 @@
                 } else {
                     choosechoices();
                 }
+                this.blur();
             };
 
             //時間切れ
             const timeOut = function() {
-                cleartime[right + wrong] = 10000;
+                clearTime[right + wrong] = 10000;
                 scoreView.textContent = "不正解";
                 timeGaugeView.innerHTML = "";
                 wrong++;
@@ -238,7 +229,7 @@
                 qc4.style.visibility = "hidden";
                 gamestart.style.visibility = "visible";
                 scoreView.textContent = "終了";
-                time = Math.floor((cleartime[1 + quizes.length] - cleartime[1 + quizes.length]%1000)/1000);
+                time = Math.floor((clearTime[1 + quizes.length] - clearTime[1 + quizes.length]%1000)/1000);
                 const resultContens =
                 `<tr>
                     <th>正　解：</th><td>${right}回</td>
@@ -247,13 +238,12 @@
                     <th>不正解：</th><td>${wrong}回</td>
                 </tr>
                 <tr>
-                    <th>時　間：</th><td>${time}.${cleartime[1 + quizes.length]%1000}秒</td>
+                    <th>時　間：</th><td>${time}.${clearTime[1 + quizes.length]%1000}秒</td>
                 </tr>`;
-                resultView.classList.add('show-result');
                 resultTable.innerHTML = resultContens;
-                cleartime[1 + quizes.length] = 0;
+                clearTime[1 + quizes.length] = 0;
             };
         </script>
     </body>
 </html>
-<!--okazaki takaki 2021/11/27-->
+<!--okazaki takaki 2021/12/03-->
