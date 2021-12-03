@@ -208,17 +208,16 @@
                 right = 0;
                 wrong = 0;
                 out = 0;
+                divChoices.innerHTML = choices;
                 chooseQuestion();
                 chooseChoices();
-                quizQuestion.style.visibility = "visible";
-                divChoices.innerHTML = choices;
                 divStartButton.innerHTML = "";
                 scoreView.textContent = "";
             };
 
             //結果表示
             const result = function() {
-                quizQuestion.style.visibility = "hidden";
+                quizQuestion.textContent = "";
                 divChoices.innerHTML = "";
                 divStartButton.innerHTML = startButton;
                 scoreView.textContent = "終了";
