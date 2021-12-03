@@ -109,10 +109,6 @@
             const divChoices = document.getElementById("divchoices");
             const timeGaugeView = document.getElementById("timeGaugeView");
             const quizQuestion = document.getElementById("quizQuestion");
-            const quizChoice1 = document.getElementById("quizChoice1");
-            const quizChoice2 = document.getElementById("quizChoice2");
-            const quizChoice3 = document.getElementById("quizChoice3");
-            const quizChoice4 = document.getElementById("quizChoice4");
             const resultTable = document.getElementById("resultTable");
             const resultView = document.getElementById("resultView");
             const gameStart = document.getElementById("startbutton");
@@ -152,6 +148,10 @@
 
             //ランダムな選択肢の表示
             const chooseChoices = function() {
+                const quizChoice1 = document.getElementById("quizChoice1");
+                const quizChoice2 = document.getElementById("quizChoice2");
+                const quizChoice3 = document.getElementById("quizChoice3");
+                const quizChoice4 = document.getElementById("quizChoice4");
                 quizQuestion.textContent = quizes[quiznum[right + wrong]][5];
                 x = getRandomInt(4);
                 y = (getRandomInt(2) * 2) + 1;
