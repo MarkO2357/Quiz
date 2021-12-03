@@ -170,7 +170,7 @@
                 clearTime[right + wrong] = finished - started;
                 clearTime[1 + quizes.length] += finished - started;
                 timeGaugeView.innerHTML = "";
-                if (this.value == quizes[quiznum[right + wrong]][4]) {
+                if (document.activeElement.value == quizes[quiznum[right + wrong]][4]) {
                     scoreView.textContent = "正解 " + (clearTime[right + wrong]/1000).toFixed(3) + "秒";
                     right++;
                 } else {
@@ -184,7 +184,7 @@
                 } else {
                     chooseChoices();
                 }
-                this.blur();
+                document.activeElement.blur();
             };
 
             //時間切れ
