@@ -70,24 +70,26 @@
         <section>
             <div id = "quizQuestion" class="question">問題文</div>
             <div id = "divchoices">
-                <input type = "button" id = "quizChoice1" value = "選択肢" class = "button" accesskey = "1" onclick = "check()">
-                <input type = "button" id = "quizChoice2" value = "選択肢" class = "button" accesskey = "2" onclick = "check()">
-                <input type = "button" id = "quizChoice3" value = "選択肢" class = "button" accesskey = "3" onclick = "check()">
-                <input type = "button" id = "quizChoice4" value = "選択肢" class = "button" accesskey = "4" onclick = "check()">
+                <input type = "button" id = "quizChoice1" value = "選択肢" class = "button" accesskey = "1" onclick = "check(1)">
+                <input type = "button" id = "quizChoice2" value = "選択肢" class = "button" accesskey = "2" onclick = "check(2)">
+                <input type = "button" id = "quizChoice3" value = "選択肢" class = "button" accesskey = "3" onclick = "check(3)">
+                <input type = "button" id = "quizChoice4" value = "選択肢" class = "button" accesskey = "4" onclick = "check(0)">
             </div>
             <div id = "divstartbutton">
                 <!--<input type = "button" id = "startbutton" value = "スタート" class = "button"  onclick = "start()">-->
             </div>
-            <div id = "scoreView" class="question"></div>
+            <div id = "scoreView" class="question">
+                <!--<div class="time-gauge" onanimationend="timeOut()"></div>-->
+            </div>
         </section>
 
-        <section id="resultView" class = "show-result">
-            <div class = "size"><table id="resultTable"></table></div>
+        <section id = "resultView" class = "show-result">
+            <div class = "size"><table id = "resultTable"></table></div>
         </section>
 
-        <div id="timeGaugeView"></div>
+        <div id = "timeGaugeView"></div>
 
-        <script language="javascript" type="text/javascript">
+        <script language="javascript" type = "text/javascript">
 
             //使う変数
             let finished = 0;
@@ -97,15 +99,25 @@
             let time = 0;
             let qnum = 0;
             let out = 0;
+            let q1 = 0;
+            let q2 = 0;
+            let q3 = 0;
+            let q4 = 0;
             let s = 0;
             let t = 0;
             let w = 0;
             let x = 0;
             let y = 0;
             let z = 0;
+            let rightAnsewr = [...Array(4)];
             const MISS = 3;
             const timeGauge = '<div class="time-gauge" onanimationend="timeOut()"></div>';
-            const choices = '<input type = "button" id = "quizChoice1" value = "選択肢" class = "button" accesskey = "1"  onclick = "check()"><input type = "button" id = "quizChoice2" value = "選択肢" class = "button" accesskey = "2"  onclick = "check()"><input type = "button" id = "quizChoice3" value = "選択肢" class = "button" accesskey = "3"  onclick = "check()"><input type = "button" id = "quizChoice4" value = "選択肢" class = "button" accesskey = "4"  onclick = "check()">';
+            const choices = `
+                <input type = "button" id = "quizChoice1" value = "選択肢" class = "button" accesskey = "1" onclick = "check(1)">
+                <input type = "button" id = "quizChoice2" value = "選択肢" class = "button" accesskey = "2" onclick = "check(2)">
+                <input type = "button" id = "quizChoice3" value = "選択肢" class = "button" accesskey = "3" onclick = "check(3)">
+                <input type = "button" id = "quizChoice4" value = "選択肢" class = "button" accesskey = "4" onclick = "check(0)">
+                `;
             const startButton = '<input type = "button" id = "startbutton" value = "スタート" class = "button"  onclick = "start()">';
             const divStartButton = document.getElementById("divstartbutton");
             const divChoices = document.getElementById("divchoices");
@@ -158,21 +170,29 @@
                 x = getRandomInt(4);
                 y = (getRandomInt(2) * 2) + 1;
                 z = getRandomInt(2);
-                quizChoice1.value = quizes[quiznum[right + wrong]][(((1 + x) + z) * y) % 4];
-                quizChoice2.value = quizes[quiznum[right + wrong]][(((2 + x) + (z * 3)) * y) % 4];
-                quizChoice3.value = quizes[quiznum[right + wrong]][((3 + x) * y) % 4];
-                quizChoice4.value = quizes[quiznum[right + wrong]][((x) * y) % 4];
+                q1 = (((1 + x) + z) * y) % 4;
+                q2 = (((2 + x) + (z * 3)) * y) % 4;
+                q3 = ((3 + x) * y) % 4;
+                q4 = (x * y) % 4;
+                quizChoice1.value = quizes[quiznum[right + wrong]][q1];
+                quizChoice2.value = quizes[quiznum[right + wrong]][q2];
+                quizChoice3.value = quizes[quiznum[right + wrong]][q3];
+                quizChoice4.value = quizes[quiznum[right + wrong]][q4];
+                rightAnsewr[1] = q1;
+                rightAnsewr[2] = q2;
+                rightAnsewr[3] = q3;
+                rightAnsewr[0] = q4;
                 started = new Date();
                 timeGaugeView.innerHTML = timeGauge;
             };
 
             //選択肢の正否判定
-            const check = function() {
+            const check = function(ans) {
                 finished = new Date();
                 clearTime[right + wrong] = finished - started;
                 clearTime[1 + quizes.length] += finished - started;
                 timeGaugeView.innerHTML = "";
-                if (document.activeElement.value == quizes[quiznum[right + wrong]][4]) {
+                if (quizes[quiznum[right + wrong]][rightAnsewr[ans]] == quizes[quiznum[right + wrong]][4]) {
                     scoreView.textContent = "正解 " + (clearTime[right + wrong]/1000).toFixed(3) + "秒";
                     right++;
                 } else {
@@ -240,4 +260,4 @@
         </script>
     </body>
 </html>
-<!--okazaki takaki 2021/12/03-->
+<!--okazaki takaki 2021/12/04-->
